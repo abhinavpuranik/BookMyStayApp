@@ -1,15 +1,8 @@
-
-/*
- * @author Developer
- * @version 1.0
- * 
- * Entrypoint 
- */
-
 package com.seveneleven.main;
 
-import com.seveneleven.utility.*;
 import java.util.Scanner;
+
+import com.seveneleven.utility.InventoryService;
 
 public class HotelAdminApp {
 
@@ -18,66 +11,68 @@ public class HotelAdminApp {
         Scanner sc = new Scanner(System.in);
         InventoryService inventory = new InventoryService();
 
-        // Initializing default rooms
+        // Initialize default rooms
         inventory.addRoomType("Single", 10, 3000);
         inventory.addRoomType("Double", 15, 5000);
         inventory.addRoomType("Suite", 5, 9000);
 
-        while (true) {
+        while(true) {
 
             System.out.println("\n--- HOTEL INVENTORY MENU ---");
             System.out.println("1. Add Room Type");
             System.out.println("2. Update Room Count");
-            System.out.println("3. Update Price");
+            System.out.println("3. Update Room Price");
             System.out.println("4. View Inventory");
             System.out.println("5. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
 
-            switch (choice) {
+            switch(choice) {
 
-                case 1 -> {
+                case 1:
                     System.out.print("Enter room type: ");
                     String type = sc.nextLine();
 
-                    System.out.print("Enter room count: ");
+                    System.out.print("Enter count: ");
                     int count = sc.nextInt();
 
-                    System.out.print("Enter price per night: ");
+                    System.out.print("Enter price: ");
                     double price = sc.nextDouble();
 
                     inventory.addRoomType(type, count, price);
-                }
+                    break;
 
-                case 2 -> {
+                case 2:
                     System.out.print("Enter room type: ");
-                    String type = sc.nextLine();
+                    String type1 = sc.nextLine();
 
                     System.out.print("Enter new count: ");
-                    int count = sc.nextInt();
+                    int newCount = sc.nextInt();
 
-                    inventory.updateRoomCount(type, count);
-                }
+                    inventory.updateRoomCount(type1, newCount);
+                    break;
 
-                case 3 -> {
+                case 3:
                     System.out.print("Enter room type: ");
-                    String type = sc.nextLine();
+                    String type2 = sc.nextLine();
 
                     System.out.print("Enter new price: ");
-                    double price = sc.nextDouble();
+                    double newPrice = sc.nextDouble();
 
-                    inventory.updateRoomPrice(type, price);
-                }
+                    inventory.updatePrice(type2, newPrice);
+                    break;
 
-                case 4 -> inventory.displayInventory();
+                case 4:
+                    inventory.showInventory();
+                    break;
 
-                case 5 -> {
-                    System.out.println("Exiting system.");
+                case 5:
+                    System.out.println("Exiting...");
                     return;
-                }
 
-                default -> System.out.println("Invalid choice.");
+                default:
+                    System.out.println("Invalid choice.");
             }
         }
     }
