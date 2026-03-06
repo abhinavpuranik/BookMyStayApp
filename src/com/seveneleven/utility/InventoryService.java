@@ -1,3 +1,9 @@
+/*
+ * @author Developer
+ * @version 1.0
+ * Inventory management utility
+ */
+
 package com.seveneleven.utility;
 
 import java.util.HashMap;
@@ -13,34 +19,34 @@ public class InventoryService {
         roomPrice = new HashMap<>();
     }
 
-    // Add a new room type
+  
     public void addRoomType(String type, int count, double price) {
         roomCount.put(type, count);
         roomPrice.put(type, price);
         System.out.println(type + " room added successfully.");
     }
 
-    // Update room count
-    public void updateRoomCount(String type, int count) {
+  
+    public void updateRoomCount(String type, int newCount) {
         if(roomCount.containsKey(type)) {
-            roomCount.put(type, count);
+            roomCount.put(type, newCount);
             System.out.println("Room count updated for " + type);
         } else {
             System.out.println("Room type does not exist.");
         }
     }
 
-    // Update price
-    public void updatePrice(String type, double price) {
+   
+    public void updatePrice(String type, double newPrice) {
         if(roomPrice.containsKey(type)) {
-            roomPrice.put(type, price);
+            roomPrice.put(type, newPrice);
             System.out.println("Price updated for " + type);
         } else {
             System.out.println("Room type does not exist.");
         }
     }
 
-    // Show inventory
+  
     public void showInventory() {
         System.out.println("\nCurrent Room Inventory:");
 
@@ -51,8 +57,7 @@ public class InventoryService {
             System.out.println(type + " | Available: " + count + " | Price: " + price);
         }
     }
-
-    // Check availability
+ 
     public int getAvailability(String type) {
         return roomCount.getOrDefault(type, 0);
     }

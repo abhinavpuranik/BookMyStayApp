@@ -1,3 +1,8 @@
+/*
+ * @author Developer
+ * @version 1.0
+ * Entrypoint
+ */
 package com.seveneleven.main;
 
 import java.util.Scanner;
@@ -11,12 +16,11 @@ public class HotelAdminApp {
         Scanner sc = new Scanner(System.in);
         InventoryService inventory = new InventoryService();
 
-        // Initialize default rooms
         inventory.addRoomType("Single", 10, 3000);
         inventory.addRoomType("Double", 15, 5000);
         inventory.addRoomType("Suite", 5, 9000);
 
-        while(true) {
+        while (true) {
 
             System.out.println("\n--- HOTEL INVENTORY MENU ---");
             System.out.println("1. Add Room Type");
@@ -28,9 +32,9 @@ public class HotelAdminApp {
             int choice = sc.nextInt();
             sc.nextLine();
 
-            switch(choice) {
+            switch (choice) {
 
-                case 1:
+                case 1 -> {
                     System.out.print("Enter room type: ");
                     String type = sc.nextLine();
 
@@ -41,9 +45,9 @@ public class HotelAdminApp {
                     double price = sc.nextDouble();
 
                     inventory.addRoomType(type, count, price);
-                    break;
+                }
 
-                case 2:
+                case 2 -> {
                     System.out.print("Enter room type: ");
                     String type1 = sc.nextLine();
 
@@ -51,9 +55,9 @@ public class HotelAdminApp {
                     int newCount = sc.nextInt();
 
                     inventory.updateRoomCount(type1, newCount);
-                    break;
+                }
 
-                case 3:
+                case 3 -> {
                     System.out.print("Enter room type: ");
                     String type2 = sc.nextLine();
 
@@ -61,18 +65,16 @@ public class HotelAdminApp {
                     double newPrice = sc.nextDouble();
 
                     inventory.updatePrice(type2, newPrice);
-                    break;
+                }
 
-                case 4:
-                    inventory.showInventory();
-                    break;
+                case 4 -> inventory.showInventory();
 
-                case 5:
+                case 5 -> {
                     System.out.println("Exiting...");
                     return;
+                }
 
-                default:
-                    System.out.println("Invalid choice.");
+                default -> System.out.println("Invalid choice.");
             }
         }
     }
