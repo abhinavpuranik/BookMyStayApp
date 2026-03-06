@@ -1,6 +1,6 @@
 /*
  * @author Developer
- * @version 1.0
+ * @version 3.0
  * Entrypoint
  */
 package com.seveneleven.main;
@@ -8,17 +8,26 @@ package com.seveneleven.main;
 import java.util.Scanner;
 
 import com.seveneleven.utility.InventoryService;
+import com.seveneleven.utility.BookingQueueService;
+import com.seveneleven.model.Reservation;
 
 public class HotelAdminApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
         InventoryService inventory = new InventoryService();
+        BookingQueueService bookingQueue = new BookingQueueService();
 
         inventory.addRoomType("Single", 10, 3000);
         inventory.addRoomType("Double", 15, 5000);
         inventory.addRoomType("Suite", 5, 9000);
+
+        // Pre-added booking requests (simulate traffic)
+        bookingQueue.addBookingRequest(new Reservation("Alice", "Single"));
+        bookingQueue.addBookingRequest(new Reservation("Bob", "Suite"));
+        bookingQueue.addBookingRequest(new Reservation("Charlie", "Double"));
 
         while (true) {
 
@@ -29,7 +38,10 @@ public class HotelAdminApp {
             System.out.println("4. View Inventory (Admin)");
             System.out.println("5. Search Available Rooms (Guest)");
             System.out.println("6. Check Room Availability (Guest)");
-            System.out.println("7. Exit");
+            System.out.println("7. Request Booking (Guest)");
+            System.out.println("8. Process Next Booking (Admin)");
+            System.out.println("9. View Booking Queue");
+            System.out.println("10. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -89,6 +101,28 @@ public class HotelAdminApp {
                 }
 
                 case 7 -> {
+                    System.out.print("Enter guest name: ");
+                    String guest = sc.nextLine();
+
+                    System.out.print("Enter room type: ");
+                    String roomType = sc.nextLine();
+
+                    Reservation reservation = new Reservation(guest, roomType);
+
+                    bookingQueue.addBookingRequest(reservation);
+
+                    try {
+                        Thread.sleep(1000); // simulate traffic delay
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                case 8 -> bookingQueue.processNextRequest();
+
+                case 9 -> bookingQueue.showQueue();
+
+                case 10 -> {
                     System.out.println("Exiting...");
                     return;
                 }
