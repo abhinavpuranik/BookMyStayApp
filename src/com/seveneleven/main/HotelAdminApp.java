@@ -22,12 +22,14 @@ public class HotelAdminApp {
 
         while (true) {
 
-            System.out.println("\n--- HOTEL INVENTORY MENU ---");
-            System.out.println("1. Add Room Type");
-            System.out.println("2. Update Room Count");
-            System.out.println("3. Update Room Price");
-            System.out.println("4. View Inventory");
-            System.out.println("5. Exit");
+            System.out.println("\n--- HOTEL SYSTEM MENU ---");
+            System.out.println("1. Add Room Type (Admin)");
+            System.out.println("2. Update Room Count (Admin)");
+            System.out.println("3. Update Room Price (Admin)");
+            System.out.println("4. View Inventory (Admin)");
+            System.out.println("5. Search Available Rooms (Guest)");
+            System.out.println("6. Check Room Availability (Guest)");
+            System.out.println("7. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -69,7 +71,24 @@ public class HotelAdminApp {
 
                 case 4 -> inventory.showInventory();
 
-                case 5 -> {
+                case 5 -> inventory.searchAvailableRooms();
+
+                case 6 -> {
+                    System.out.print("Enter room type: ");
+                    String type = sc.nextLine();
+
+                    if (inventory.isRoomAvailable(type)) {
+                        double price = inventory.getRoomPrice(type);
+
+                        System.out.println("Room available!");
+                        System.out.println("Price per night: " + price);
+                    } 
+                    else {
+                        System.out.println("Room not available.");
+                    }
+                }
+
+                case 7 -> {
                     System.out.println("Exiting...");
                     return;
                 }
