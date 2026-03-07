@@ -1,18 +1,23 @@
 /*
  * @author Developer
- * @version 1.0
+ * @version 4.0
  * Inventory management utility
  */
 
 package com.seveneleven.utility;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class InventoryService {
 
     private Map<String, Integer> roomCount;
     private Map<String, Double> roomPrice;
+    private HashSet<String> bookedRoomIds = new HashSet<>();
+    private HashMap<String, Set<String>> allocatedRooms = new HashMap<>();
+    
 
     public InventoryService() {
         roomCount = new HashMap<>();
@@ -92,4 +97,31 @@ public class InventoryService {
     	
     	return roomPrice.get(type);
     }
+    
+    //room allocation ensuring unique ids
+    
+    public String allocateRoom(String roomType) {
+    	if(!roomCount.containsKey(roomType) || roomCount.get(roomType) == 0) {
+    		return null;
+    	}
+    	
+    	int nextRoomNumber = allocatedRooms.getOrDefault(roomType, new HashSet<>())
+    										.size() + 1;
+    	
+    	String prefix = roomType.substring(0,1).toUpperCase();
+    	String roomId = prefix + nextRoomNumber;
+    	if(bookedRoomIds.contains(roomId)) {
+    		return null;
+    	}
+    	
+    	allocatedRooms.computeIfAbsent(roomType, k-> new HashSet<>())
+    	.add(roomId);
+    	
+    	roomCount.put(roomType, roomCount.get(roomType) - 1);
+    	
+    	return roomId;
+    	
+    }
+    
+    
 }

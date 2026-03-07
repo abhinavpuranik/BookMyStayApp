@@ -1,7 +1,7 @@
 
 /*
  * @author Developer
- * @version 3.0
+ * @version 4.0
  * Utility to manage the booking queue
  */
 
@@ -26,17 +26,29 @@ public class BookingQueueService {
 			System.out.println("Booking request added to queue.");
 		}
 		
-		public void processNextRequest() {
-			
-			if(bookingQueue.isEmpty()) {
-				System.out.println("No pending requests");
-				return;
-			}
-			Reservation reservation = bookingQueue.poll();
-			
-			
-			System.out.println("Processing booking request:");
-			System.out.println(reservation);
+		public void processNextRequest(InventoryService inventory) {
+
+		    Reservation reservation = bookingQueue.poll();
+
+		    if (reservation == null) {
+		        System.out.println("No pending booking requests.");
+		        return;
+		    }
+
+		    String roomType = reservation.getRoomType();
+
+		    String roomId = inventory.allocateRoom(roomType);
+
+		    if (roomId == null) {
+		        System.out.println("Booking failed for " + reservation.getGuestName());
+		        System.out.println("No rooms available.");
+		        return;
+		    }
+
+		    System.out.println("Reservation confirmed!");
+		    System.out.println("Guest: " + reservation.getGuestName());
+		    System.out.println("Room Type: " + roomType);
+		    System.out.println("Assigned Room ID: " + roomId);
 		}
 		
 		

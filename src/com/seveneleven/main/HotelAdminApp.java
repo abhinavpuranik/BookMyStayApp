@@ -1,6 +1,6 @@
 /*
  * @author Developer
- * @version 3.0
+ * @version 4.0
  * Entrypoint
  */
 package com.seveneleven.main;
@@ -118,7 +118,7 @@ public class HotelAdminApp {
                     }
                 }
 
-                case 8 -> bookingQueue.processNextRequest();
+                case 8 -> bookingQueue.processNextRequest(inventory);
 
                 case 9 -> bookingQueue.showQueue();
 
