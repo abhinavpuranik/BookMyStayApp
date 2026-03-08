@@ -7,12 +7,17 @@
 package com.seveneleven.model;
 
 public class Reservation {
+	
+	private static int counter = 1;
+	private String reservationId;
+	
 
     private String guestName;
     private String roomType;
     private long requestTime;
 
     public Reservation(String guestName, String roomType) {
+    	this.reservationId = "R" + counter++;
         this.guestName = guestName;
         this.roomType = roomType;
         this.requestTime = System.currentTimeMillis();
@@ -28,6 +33,10 @@ public class Reservation {
 
     public long getRequestTime() {
         return requestTime;
+    }
+    
+    public String getReservationId() {
+        return reservationId;
     }
 
     @Override

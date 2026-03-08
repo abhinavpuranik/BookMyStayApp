@@ -1,6 +1,6 @@
 /*
  * @author Developer
- * @version 4.0
+ * @version 5.0
  * Entrypoint
  */
 package com.seveneleven.main;
@@ -9,7 +9,10 @@ import java.util.Scanner;
 
 import com.seveneleven.utility.InventoryService;
 import com.seveneleven.utility.BookingQueueService;
+import com.seveneleven.utility.ServiceManagementModule;
+
 import com.seveneleven.model.Reservation;
+import com.seveneleven.model.Service;
 
 public class HotelAdminApp {
 
@@ -19,6 +22,7 @@ public class HotelAdminApp {
 
         InventoryService inventory = new InventoryService();
         BookingQueueService bookingQueue = new BookingQueueService();
+        ServiceManagementModule serviceModule = new ServiceManagementModule();
 
         inventory.addRoomType("Single", 10, 3000);
         inventory.addRoomType("Double", 15, 5000);
@@ -41,7 +45,10 @@ public class HotelAdminApp {
             System.out.println("7. Request Booking (Guest)");
             System.out.println("8. Process Next Booking (Admin)");
             System.out.println("9. View Booking Queue");
-            System.out.println("10. Exit");
+            System.out.println("10. Add Service to Reservation");
+            System.out.println("11. View Services for Reservation");
+            System.out.println("12. Calculate Service Cost");
+            System.out.println("13. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -112,7 +119,7 @@ public class HotelAdminApp {
                     bookingQueue.addBookingRequest(reservation);
 
                     try {
-                        Thread.sleep(1000); // simulate traffic delay
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -123,6 +130,42 @@ public class HotelAdminApp {
                 case 9 -> bookingQueue.showQueue();
 
                 case 10 -> {
+
+                    System.out.print("Enter reservation ID: ");
+                    String reservationId = sc.nextLine();
+
+                    serviceModule.showAvailableServices();
+
+                    System.out.print("Enter service name: ");
+                    String serviceName = sc.nextLine();
+
+                    Service service = serviceModule.createService(serviceName);
+
+                    if (service == null) {
+                        System.out.println("Invalid service.");
+                    }
+                    else {
+                        serviceModule.addService(reservationId, service);
+                    }
+                }
+
+                case 11 -> {
+                    System.out.print("Enter reservation ID: ");
+                    String reservationId = sc.nextLine();
+
+                    serviceModule.showServices(reservationId);
+                }
+
+                case 12 -> {
+                    System.out.print("Enter reservation ID: ");
+                    String reservationId = sc.nextLine();
+
+                    double cost = serviceModule.calculateServiceCost(reservationId);
+
+                    System.out.println("Total additional service cost: " + cost);
+                }
+
+                case 13 -> {
                     System.out.println("Exiting...");
                     return;
                 }
