@@ -1,6 +1,6 @@
 /*
  * @author Developer
- * @version 5.0
+ * @version 6.0
  * Entrypoint
  */
 package com.seveneleven.main;
@@ -8,6 +8,7 @@ package com.seveneleven.main;
 import java.util.Scanner;
 
 import com.seveneleven.utility.InventoryService;
+import com.seveneleven.utility.BookingHistoryService;
 import com.seveneleven.utility.BookingQueueService;
 import com.seveneleven.utility.ServiceManagementModule;
 
@@ -23,6 +24,7 @@ public class HotelAdminApp {
         InventoryService inventory = new InventoryService();
         BookingQueueService bookingQueue = new BookingQueueService();
         ServiceManagementModule serviceModule = new ServiceManagementModule();
+        BookingHistoryService history = new BookingHistoryService();
 
         inventory.addRoomType("Single", 10, 3000);
         inventory.addRoomType("Double", 15, 5000);
@@ -49,6 +51,8 @@ public class HotelAdminApp {
             System.out.println("11. View Services for Reservation");
             System.out.println("12. Calculate Service Cost");
             System.out.println("13. Exit");
+            System.out.println("14. View Booking History");
+            System.out.println("15. Cancel Reservation");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -125,7 +129,10 @@ public class HotelAdminApp {
                     }
                 }
 
-                case 8 -> bookingQueue.processNextRequest(inventory);
+                case 8 ->  {
+                	
+                	bookingQueue.processNextRequest(inventory, history);
+                }
 
                 case 9 -> bookingQueue.showQueue();
 
@@ -168,6 +175,14 @@ public class HotelAdminApp {
                 case 13 -> {
                     System.out.println("Exiting...");
                     return;
+                }
+                case 14 -> history.showAllReservations();
+
+                case 15 -> {
+                    System.out.print("Enter reservation ID: ");
+                    String id = sc.nextLine();
+
+                    history.cancelReservation(id);
                 }
 
                 default -> System.out.println("Invalid choice.");
