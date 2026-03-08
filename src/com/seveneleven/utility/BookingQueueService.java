@@ -23,7 +23,7 @@ public class BookingQueueService {
 		
 		public void addBookingRequest(Reservation reservation) {
 			bookingQueue.offer(reservation);
-			history.addReservation(reservation);
+			
 			try {
 				Thread.sleep(1000);
 			}catch(InterruptedException e) {
