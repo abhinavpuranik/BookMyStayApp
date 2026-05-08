@@ -1,7 +1,7 @@
 
 /*
  * @author Developer
- * @version 4.0
+ * @version 6.0
  * Utility to manage the booking queue
  */
 
@@ -12,21 +12,28 @@ import java.util.Queue;
 
 import com.seveneleven.model.*;
 
+
+
 public class BookingQueueService {
+	
+		BookingHistoryService history = new BookingHistoryService();
+
 
 		private Queue<Reservation> bookingQueue = new LinkedList<>();
 		
 		public void addBookingRequest(Reservation reservation) {
 			bookingQueue.offer(reservation);
+			
 			try {
 				Thread.sleep(1000);
 			}catch(InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 			System.out.println("Booking request added to queue.");
 		}
 		
-		public void processNextRequest(InventoryService inventory) {
+		public void processNextRequest(InventoryService inventory, BookingHistoryService history) {
 
 		    Reservation reservation = bookingQueue.poll();
 
@@ -44,6 +51,8 @@ public class BookingQueueService {
 		        System.out.println("No rooms available.");
 		        return;
 		    }
+		    //adding to history
+		    history.addReservation(reservation);
 
 		    System.out.println("Reservation confirmed!");
 		    System.out.println("Guest: " + reservation.getGuestName());
